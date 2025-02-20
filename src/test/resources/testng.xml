@@ -2,7 +2,10 @@
 <suite name="My suite">
     <test name="First Script">
         <classes>
-            <class name="com." />
+            <class name="com.balbina.automationworkshop.CheckoutFormTest" />
+            <class name="com.balbina.automationworkshop.LoginTest" />
+            <class name="com.balbina.automationworkshop.ShoppingCartIconBehaviorTest" />
+            <class name="com.balbina.automationworkshop.SortTest" />
         </classes>
     </test>
 </suite>
