@@ -5,9 +5,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import io.qameta.allure.*;
 
 import java.util.List;
 
+@Epic("Checkout Feature")
+@Feature("Checkout Form")
 public class CheckoutFormTest extends BaseTest {
 
     private static final String ADD_TO_CART_BTN = "//button[@id='add-to-cart-sauce-labs-bike-light']";
@@ -23,6 +26,9 @@ public class CheckoutFormTest extends BaseTest {
     public static final String POSTAL_CODE_INPUT = "//input[@id='postal-code']";
 
     @Test
+    @Description("Verifies that entering correct data redirects you correctly")
+    @Severity(SeverityLevel.CRITICAL)
+    @Step("Filling out checkout form with correct data")
     public void checkoutSuccessfulPathTest() {
         addToCartAndCheckout();
 
@@ -44,6 +50,9 @@ public class CheckoutFormTest extends BaseTest {
         Assert.assertTrue(shoppingCartBadge.isEmpty());
     }
 
+    @Description("Verifies that omitting data for name shows error message correctly")
+    @Severity(SeverityLevel.CRITICAL)
+    @Step("Omit input field Name and checkout")
     @Test
     public void checkoutFormErrorTest() {
         addToCartAndCheckout();

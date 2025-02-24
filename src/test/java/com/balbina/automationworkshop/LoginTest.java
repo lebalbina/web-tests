@@ -1,5 +1,6 @@
 package com.balbina.automationworkshop;
 
+import io.qameta.allure.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -15,7 +16,8 @@ import java.time.Duration;
 
 //TODO assert visibility of containers (.isDisplayed())
 //TODO constants for error messages
-
+@Epic("Login")
+@Feature("Login")
 public class LoginTest {
     WebDriver driver;
     WebDriverWait driverWait;
@@ -30,6 +32,9 @@ public class LoginTest {
     }
 
     @Test
+    @Description("Verifies that entering correct data logs user in")
+    @Severity(SeverityLevel.BLOCKER)
+    @Step("Enter correct username and password")
     public void loginSuccess() {
         loginAttempt("standard_user", "secret_sauce");
 
@@ -40,6 +45,9 @@ public class LoginTest {
     }
 
     @Test
+    @Description("Verifies that entering wrong password displays error correctly")
+    @Severity(SeverityLevel.NORMAL)
+    @Step("Enter wrong password")
     public void loginFailed_wrongPassword() {
         loginAttempt("standard_user", "wrong_password");
 
@@ -54,6 +62,9 @@ public class LoginTest {
     }
 
     @Test
+    @Description("Verifies that entering no password displays error correctly")
+    @Severity(SeverityLevel.NORMAL)
+    @Step("Do not enter password")
     public void loginFailed_noPassword() {
         loginAttempt("standard_user", "");
 
@@ -67,6 +78,9 @@ public class LoginTest {
     }
 
     @Test
+    @Description("Verifies that entering no username displays error correctly")
+    @Severity(SeverityLevel.NORMAL)
+    @Step("Do not enter username")
     public void loginFailed_noUsername() {
         loginAttempt("", "secret_sauce");
 
@@ -80,6 +94,9 @@ public class LoginTest {
     }
 
     @Test
+    @Description("Verifies that entering no data displays error correctly")
+    @Severity(SeverityLevel.NORMAL)
+    @Step("Do not enter username and password")
     public void loginFailed_noUsername_noPassword() {
         loginAttempt("", "");
 

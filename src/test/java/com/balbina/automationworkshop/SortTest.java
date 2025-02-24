@@ -1,5 +1,6 @@
 package com.balbina.automationworkshop;
 
+import io.qameta.allure.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -12,9 +13,14 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+@Epic("Products display")
+@Feature("Sorting")
 public class SortTest extends BaseTest {
 
     @Test
+    @Description("Verifies that sorting in ascending alphabetical order works")
+    @Step("Click sorting A-Z from the dropdown menu")
+    @Severity(SeverityLevel.NORMAL)
     public void sortAlphabeticallyAsc() {
         WebElement sortingContainer = driver.findElement(By.xpath("//select[@class=\"product_sort_container\"]"));
         sortingContainer.click();
@@ -37,6 +43,9 @@ public class SortTest extends BaseTest {
     }
 
     @Test
+    @Description("Verifies that sorting in descending alphabetical order works")
+    @Step("Click sorting Z-A from the dropdown menu")
+    @Severity(SeverityLevel.NORMAL)
     public void sortAlphabeticallyDesc() {
         WebElement sortingContainer = driver.findElement(By.xpath("//select[@class=\"product_sort_container\"]"));
         sortingContainer.click();
@@ -59,6 +68,9 @@ public class SortTest extends BaseTest {
     }
 
     @Test
+    @Description("Verifies that sorting in ascending price order works")
+    @Step("Click sorting Price (low to high) from the dropdown menu")
+    @Severity(SeverityLevel.NORMAL)
     public void sortPriceAscending() {
         WebElement filterBtn = driverWait.until(
                 ExpectedConditions.visibilityOfElementLocated(By.className("product_sort_container"))
@@ -85,6 +97,9 @@ public class SortTest extends BaseTest {
     }
 
     @Test
+    @Description("Verifies that sorting in descending price order works")
+    @Step("Click sorting Price (high to low) from the dropdown menu")
+    @Severity(SeverityLevel.NORMAL)
     public void sortPriceDescending() {
         Select select = new Select(driver.findElement(By.className("product_sort_container")));
         select.selectByVisibleText("Price (high to low)");
