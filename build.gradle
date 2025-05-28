@@ -24,7 +24,7 @@ test {
     useTestNG() {
         useDefaultListeners = true
     }
-    systemProperty 'allure.results.directory', layout.buildDirectory.file("allure-results").get().asFile.absolutePath
+    systemProperty 'allure.results.directory', layout.buildDirectory.dir("allure-results").get().asFile.absolutePath
 
     testLogging {
         events "PASSED", "FAILED", "SKIPPED"
