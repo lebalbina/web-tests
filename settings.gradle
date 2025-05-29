@@ -1,2 +1,2 @@
-rootProject.name = 'ProjectForTesting'
-
+rootProject.name = 'web-tests'
+include(":app")

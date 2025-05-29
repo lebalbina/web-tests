@@ -1,5 +1,6 @@
 package com.balbina.automationworkshop;
 
+import com.balbina.automationworkshop.utils.ConfigReader;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -20,7 +21,7 @@ public class BaseTest {
         driver = new ChromeDriver();
         driver.get("https://www.saucedemo.com/");
         driverWait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        loginAttempt("standard_user", "secret_sauce");
+        loginAttempt(ConfigReader.getUsername(), ConfigReader.getPassword());
     }
 
     public void loginAttempt(String username, String password) {

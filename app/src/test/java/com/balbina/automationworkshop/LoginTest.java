@@ -1,5 +1,6 @@
 package com.balbina.automationworkshop;
 
+import com.balbina.automationworkshop.utils.ConfigReader;
 import io.qameta.allure.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -16,6 +17,7 @@ import java.time.Duration;
 
 //TODO assert visibility of containers (.isDisplayed())
 //TODO constants for error messages
+//TODO failing logins candidate for parameterized tests
 @Epic("Login")
 @Feature("Login")
 public class LoginTest {
@@ -36,7 +38,7 @@ public class LoginTest {
     @Severity(SeverityLevel.BLOCKER)
     @Step("Enter correct username and password")
     public void loginSuccess() {
-        loginAttempt("standard_user", "secret_sauce");
+        loginAttempt(ConfigReader.getUsername(), ConfigReader.getPassword());
 
         WebElement inventory = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div#inventory_container")));
 

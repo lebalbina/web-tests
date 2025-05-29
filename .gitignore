@@ -5,7 +5,7 @@ app/build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 app/allure-results
-config.properties
+resources/config.properties
 
 ### IntelliJ IDEA ###
 .idea/
