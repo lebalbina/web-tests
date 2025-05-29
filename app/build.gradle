@@ -17,20 +17,16 @@ dependencies {
     implementation 'org.slf4j:slf4j-api:1.7.32'
     implementation 'org.apache.logging.log4j:log4j-slf4j-impl:2.14.1'
     implementation 'org.apache.logging.log4j:log4j-core:2.17.1'
-    testImplementation 'io.qameta.allure:allure-testng:2.24.0'
+    testImplementation 'io.qameta.allure:allure-testng'
+    testImplementation platform("io.qameta.allure:allure-bom:2.29.1")
 }
 
 test {
     useTestNG() {
         useDefaultListeners = true
     }
-    systemProperty 'allure.results.directory', layout.buildDirectory.dir("allure-results").get().asFile.absolutePath
 
     testLogging {
         events "PASSED", "FAILED", "SKIPPED"
-    }
-    reports {
-        html.required.set(true)
-        junitXml.required.set(true)
     }
 }
