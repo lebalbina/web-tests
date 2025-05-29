@@ -2,9 +2,9 @@ pipeline {
     agent any
 
     stages {
-        stage('Clone Repository') {
+        stage('Checkout Code') {
             steps {
-                git branch: 'main', url: 'https://github.com/lebalbina/web-tests.git'
+                checkout scm
             }
         }
 
