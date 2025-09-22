@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -16,6 +17,8 @@ import java.util.List;
 @Epic("Products display")
 @Feature("Sorting")
 public class SortTest extends BaseTest {
+
+    private WebDriverWait driverWait;
 
     @Test
     @Description("Verifies that sorting in ascending alphabetical order works")

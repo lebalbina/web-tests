@@ -3,6 +3,7 @@ package com.balbina.automationworkshop;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import io.qameta.allure.*;
@@ -24,6 +25,8 @@ public class CheckoutFormTest extends BaseTest {
     public static final String FIRST_NAME_INPUT = "//input[@id='first-name']";
     public static final String LAST_NAME_INPUT = "//input[@id='last-name']";
     public static final String POSTAL_CODE_INPUT = "//input[@id='postal-code']";
+
+    private WebDriverWait driverWait;
 
     @Test
     @Description("Verifies that entering correct data redirects you correctly")

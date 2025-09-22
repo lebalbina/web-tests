@@ -1,5 +1,7 @@
 package com.balbina.automationworkshop;
 
+import com.balbina.automationworkshop.pom.HomePage;
+import com.balbina.automationworkshop.pom.LoginPage;
 import com.balbina.automationworkshop.utils.ConfigReader;
 import io.qameta.allure.*;
 import org.openqa.selenium.By;
@@ -9,28 +11,23 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import java.time.Duration;
 
-//TODO assert visibility of containers (.isDisplayed())
 //TODO constants for error messages
 //TODO failing logins candidate for parameterized tests
 @Epic("Login")
 @Feature("Login")
-public class LoginTest {
-    WebDriver driver;
-    WebDriverWait driverWait;
-    By errorContainerLocator;
+public class LoginTest extends BaseTest {
+    private static final String STANDARD_USER = "standard_user";
+    private static final String WRONG_PASSWORD = "wrong_password";
+
+    private LoginPage loginPage;
 
     @BeforeMethod
-    public void setUp() {
-        driver = new ChromeDriver();
-        driver.get("https://www.saucedemo.com/");
-        driverWait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        errorContainerLocator = By.cssSelector("div.error-message-container.error");
+    private void initialize() {
+        loginPage = new LoginPage(driver);
     }
 
     @Test
@@ -38,12 +35,11 @@ public class LoginTest {
     @Severity(SeverityLevel.BLOCKER)
     @Step("Enter correct username and password")
     public void loginSuccess() {
-        loginAttempt(ConfigReader.getUsername(), ConfigReader.getPassword());
-
-        WebElement inventory = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div#inventory_container")));
-
-        Assert.assertTrue(inventory.isDisplayed());
-        Assert.assertEquals(driver.getCurrentUrl(), "https://www.saucedemo.com/inventory.html");
+        HomePage homepage = loginPage
+                .typeUsername(ConfigReader.getUsername())
+                .typePassword(ConfigReader.getPassword())
+                .submitLoginSuccess();
+        Assert.assertTrue(homepage.isAt());
     }
 
     @Test
@@ -51,14 +47,13 @@ public class LoginTest {
     @Severity(SeverityLevel.NORMAL)
     @Step("Enter wrong password")
     public void loginFailed_wrongPassword() {
-        loginAttempt("standard_user", "wrong_password");
+        loginPage
+                .typeUsername(STANDARD_USER)
+                .typePassword(WRONG_PASSWORD)
+                .submitLoginFailure();
 
-        WebElement errorContainer = driverWait.until(
-                ExpectedConditions.visibilityOfElementLocated(errorContainerLocator)
-        );
-
-        Assert.assertTrue(errorContainer.isDisplayed());
-        Assert.assertEquals(errorContainer.getText(),
+        Assert.assertTrue(loginPage.errorContainerIsDisplayed());
+        Assert.assertEquals(loginPage.getErrorContainerText(),
                             "Epic sadface: Username and password do not match any user in this service"
         );
     }
@@ -68,13 +63,12 @@ public class LoginTest {
     @Severity(SeverityLevel.NORMAL)
     @Step("Do not enter password")
     public void loginFailed_noPassword() {
-        loginAttempt("standard_user", "");
+        loginPage
+                .typeUsername(STANDARD_USER)
+                .submitLoginFailure();
 
-        WebElement errorContainer = driverWait.until(
-                ExpectedConditions.visibilityOfElementLocated(errorContainerLocator));
-
-        Assert.assertTrue(errorContainer.isDisplayed());
-        Assert.assertEquals(errorContainer.getText(),
+        Assert.assertTrue(loginPage.errorContainerIsDisplayed());
+        Assert.assertEquals(loginPage.getErrorContainerText(),
                             "Epic sadface: Password is required"
         );
     }
@@ -84,13 +78,12 @@ public class LoginTest {
     @Severity(SeverityLevel.NORMAL)
     @Step("Do not enter username")
     public void loginFailed_noUsername() {
-        loginAttempt("", "secret_sauce");
+        loginPage
+                .typePassword(WRONG_PASSWORD)
+                .submitLoginFailure();
 
-        WebElement errorContainer = driverWait.until(
-                ExpectedConditions.visibilityOfElementLocated(errorContainerLocator));
-
-        Assert.assertTrue(errorContainer.isDisplayed());
-        Assert.assertEquals(errorContainer.getText(),
+        Assert.assertTrue(loginPage.errorContainerIsDisplayed());
+        Assert.assertEquals(loginPage.getErrorContainerText(),
                             "Epic sadface: Username is required"
         );
     }
@@ -100,31 +93,11 @@ public class LoginTest {
     @Severity(SeverityLevel.NORMAL)
     @Step("Do not enter username and password")
     public void loginFailed_noUsername_noPassword() {
-        loginAttempt("", "");
+        loginPage.submitLoginFailure();
 
-        WebElement errorContainer = driverWait.until(
-                ExpectedConditions.visibilityOfElementLocated(errorContainerLocator));
-
-        Assert.assertTrue(errorContainer.isDisplayed());
-        Assert.assertEquals(errorContainer.getText(),
+        Assert.assertTrue(loginPage.errorContainerIsDisplayed());
+        Assert.assertEquals(loginPage.getErrorContainerText(),
                             "Epic sadface: Username is required"
         );
     }
-
-    private void loginAttempt(String username, String password) {
-        WebElement usernameTxt = driver.findElement(By.name("user-name"));
-        WebElement pwdTxt = driver.findElement(By.name("password"));
-        WebElement loginBtn = driver.findElement(By.name("login-button"));
-
-        usernameTxt.sendKeys(username);
-        pwdTxt.sendKeys(password);
-        loginBtn.click();
-    }
-
-    @AfterClass
-    public void tearDown() {
-        driver.quit();
-    }
 }
-
-
