@@ -32,7 +32,7 @@ public class SortTest extends BaseTest {
     public void sortAlphabeticallyAsc() {
         homePage = login();
         homePage.selectSortingByText("Name (A to Z)");
-        List<String> itemNames = homePage.getItemNames();
+        List<String> itemNames = homePage.getProductNames();
         List<String> expected = new ArrayList<>(itemNames);
         Collections.sort(expected);
         Assert.assertEquals(itemNames, expected);
@@ -45,7 +45,7 @@ public class SortTest extends BaseTest {
     public void sortAlphabeticallyDesc() {
         homePage = login();
         homePage.selectSortingByText("Name (Z to A)");
-        List<String> itemNames = homePage.getItemNames();
+        List<String> itemNames = homePage.getProductNames();
         List<String> expected = new ArrayList<>(itemNames);
         expected.sort(Comparator.reverseOrder());
         Assert.assertEquals(itemNames, expected);
@@ -61,7 +61,7 @@ public class SortTest extends BaseTest {
         List<Double> prices = homePage.getProductPrices();
         List<Double> expected = new ArrayList<>(prices);
         Collections.sort(expected);
-        Assert.assertEquals(expected, prices);
+        Assert.assertEquals(prices, expected);
     }
 
     @Test
@@ -73,7 +73,7 @@ public class SortTest extends BaseTest {
         homePage.selectSortingByText("Price (high to low)");
         List<Double> prices = homePage.getProductPrices();
         List<Double> expected = new ArrayList<>(prices);
-        prices.sort(Collections.reverseOrder());
+        expected.sort(Collections.reverseOrder());
         Assert.assertEquals(prices, expected);
     }
 

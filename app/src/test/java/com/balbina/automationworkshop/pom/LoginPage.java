@@ -51,7 +51,7 @@ public class LoginPage extends LoadableComponent<LoginPage> {
 
     public LoginPage submitLoginFailure() {
         driver.findElement(loginBtnLocator).click();
-        return this;
+        return new LoginPage(driver);
     }
 
     public String getErrorContainerText() {

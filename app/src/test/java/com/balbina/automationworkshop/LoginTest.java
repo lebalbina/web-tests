@@ -40,7 +40,7 @@ public class LoginTest extends BaseTest {
     @Severity(SeverityLevel.NORMAL)
     @Step("Enter wrong password")
     public void loginFailed_wrongPassword() {
-        loginPage
+        loginPage = loginPage
                 .typeUsername(STANDARD_USER)
                 .typePassword(WRONG_PASSWORD)
                 .submitLoginFailure();
@@ -56,7 +56,7 @@ public class LoginTest extends BaseTest {
     @Severity(SeverityLevel.NORMAL)
     @Step("Do not enter password")
     public void loginFailed_noPassword() {
-        loginPage
+        loginPage = loginPage
                 .typeUsername(STANDARD_USER)
                 .submitLoginFailure();
 
@@ -71,7 +71,7 @@ public class LoginTest extends BaseTest {
     @Severity(SeverityLevel.NORMAL)
     @Step("Do not enter username")
     public void loginFailed_noUsername() {
-        loginPage
+        loginPage = loginPage
                 .typePassword(WRONG_PASSWORD)
                 .submitLoginFailure();
 
@@ -86,7 +86,7 @@ public class LoginTest extends BaseTest {
     @Severity(SeverityLevel.NORMAL)
     @Step("Do not enter username and password")
     public void loginFailed_noUsername_noPassword() {
-        loginPage.submitLoginFailure();
+        loginPage = loginPage.submitLoginFailure();
 
         Assert.assertTrue(loginPage.errorContainerIsDisplayed());
         Assert.assertEquals(loginPage.getErrorContainerText(),
