@@ -4,12 +4,10 @@ import com.balbina.automationworkshop.utils.WaitHelper;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.LoadableComponent;
+import org.testng.Assert;
 
-import java.time.Duration;
-
-public class LoginPage {
+public class LoginPage extends LoadableComponent<LoginPage> {
     private final WebDriver driver;
     private final WaitHelper helper;
 
@@ -17,6 +15,19 @@ public class LoginPage {
     private final By userNameLocator = By.name("user-name");
     private final By passwordLocator = By.name("password");
     private final By loginBtnLocator = By.name("login-button");
+
+    private static String LOGIN_URL = "https://www.saucedemo.com/";
+
+    @Override
+    protected void load() {
+        driver.get("https://www.saucedemo.com/");
+    }
+
+    @Override
+    protected void isLoaded() throws Error {
+        String url = driver.getCurrentUrl();
+        Assert.assertEquals(driver.getCurrentUrl(), LOGIN_URL, "Not on the login page: " + url);
+    }
 
     public LoginPage(WebDriver webDriver) {
         driver = webDriver;
@@ -35,7 +46,7 @@ public class LoginPage {
 
     public HomePage submitLoginSuccess() {
         driver.findElement(loginBtnLocator).click();
-        return new HomePage(driver);
+        return new HomePage(driver).get();
     }
 
     public LoginPage submitLoginFailure() {
@@ -53,4 +64,3 @@ public class LoginPage {
         return element.isDisplayed();
     }
 }
-

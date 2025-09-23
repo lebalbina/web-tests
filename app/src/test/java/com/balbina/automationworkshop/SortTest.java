@@ -1,12 +1,11 @@
 package com.balbina.automationworkshop;
 
+import com.balbina.automationworkshop.pom.HomePage;
+import com.balbina.automationworkshop.pom.LoginPage;
+import com.balbina.automationworkshop.utils.ConfigReader;
 import io.qameta.allure.*;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
@@ -18,30 +17,24 @@ import java.util.List;
 @Feature("Sorting")
 public class SortTest extends BaseTest {
 
-    private WebDriverWait driverWait;
+    private HomePage homePage;
+    private LoginPage loginPage;
+
+    @BeforeMethod
+    public void initialize() {
+        loginPage = new LoginPage(driver).get();
+    }
 
     @Test
     @Description("Verifies that sorting in ascending alphabetical order works")
     @Step("Click sorting A-Z from the dropdown menu")
     @Severity(SeverityLevel.NORMAL)
     public void sortAlphabeticallyAsc() {
-        WebElement sortingContainer = driver.findElement(By.xpath("//select[@class=\"product_sort_container\"]"));
-        sortingContainer.click();
-
-        Select select = new Select(sortingContainer);
-        select.selectByVisibleText("Name (A to Z)");
-
-        driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class=\"inventory_item\"]")));
-
-        List<WebElement> itemDescriptions = driver.findElements(By.xpath("//div[@class=\"inventory_item_name \"]"));
-        List<String> itemNames = new ArrayList<>();
-        for (WebElement webElement : itemDescriptions) {
-            itemNames.add(webElement.getText());
-        }
-
+        homePage = login();
+        homePage.selectSortingByText("Name (A to Z)");
+        List<String> itemNames = homePage.getItemNames();
         List<String> expected = new ArrayList<>(itemNames);
         Collections.sort(expected);
-
         Assert.assertEquals(itemNames, expected);
     }
 
@@ -50,23 +43,11 @@ public class SortTest extends BaseTest {
     @Step("Click sorting Z-A from the dropdown menu")
     @Severity(SeverityLevel.NORMAL)
     public void sortAlphabeticallyDesc() {
-        WebElement sortingContainer = driver.findElement(By.xpath("//select[@class=\"product_sort_container\"]"));
-        sortingContainer.click();
-
-        Select select = new Select(sortingContainer);
-        select.selectByVisibleText("Name (Z to A)");
-
-        driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class=\"inventory_item\"]")));
-
-        List<WebElement> itemDescriptions = driver.findElements(By.xpath("//div[@class=\"inventory_item_name \"]"));
-        List<String> itemNames = new ArrayList<>();
-        for (WebElement webElement : itemDescriptions) {
-            itemNames.add(webElement.getText());
-        }
-
+        homePage = login();
+        homePage.selectSortingByText("Name (Z to A)");
+        List<String> itemNames = homePage.getItemNames();
         List<String> expected = new ArrayList<>(itemNames);
         expected.sort(Comparator.reverseOrder());
-
         Assert.assertEquals(itemNames, expected);
     }
 
@@ -75,27 +56,11 @@ public class SortTest extends BaseTest {
     @Step("Click sorting Price (low to high) from the dropdown menu")
     @Severity(SeverityLevel.NORMAL)
     public void sortPriceAscending() {
-        WebElement filterBtn = driverWait.until(
-                ExpectedConditions.visibilityOfElementLocated(By.className("product_sort_container"))
-        );
-        filterBtn.click();
-
-        Select dropdown = new Select(filterBtn);
-        dropdown.selectByVisibleText("Price (low to high)");
-
-        driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.className("inventory_item")));
-
-        List<WebElement> priceElements = driver.findElements(By.className("inventory_item_price"));
-
-        List<Double> prices = new ArrayList<>();
-        for (WebElement webElement : priceElements) {
-            String priceText = webElement.getText().replace("$", "");
-            prices.add(Double.parseDouble(priceText));
-        }
-
+        homePage = login();
+        homePage.selectSortingByText("Price (low to high)");
+        List<Double> prices = homePage.getProductPrices();
         List<Double> expected = new ArrayList<>(prices);
         Collections.sort(expected);
-
         Assert.assertEquals(expected, prices);
     }
 
@@ -104,23 +69,18 @@ public class SortTest extends BaseTest {
     @Step("Click sorting Price (high to low) from the dropdown menu")
     @Severity(SeverityLevel.NORMAL)
     public void sortPriceDescending() {
-        Select select = new Select(driver.findElement(By.className("product_sort_container")));
-        select.selectByVisibleText("Price (high to low)");
+        homePage = login();
+        homePage.selectSortingByText("Price (high to low)");
+        List<Double> prices = homePage.getProductPrices();
+        List<Double> expected = new ArrayList<>(prices);
+        prices.sort(Collections.reverseOrder());
+        Assert.assertEquals(prices, expected);
+    }
 
-        List<WebElement> priceWebElements = driverWait.until(
-                ExpectedConditions.visibilityOfAllElementsLocatedBy(By.className("inventory_item_price"))
-        );
-
-        List<Double> prices = new ArrayList<>();
-        for (WebElement element : priceWebElements) {
-            String price = element.getText().replace("$", "");
-            prices.add(Double.parseDouble(price));
-        }
-
-        List<Double> sortedPrices = new ArrayList<>(prices);
-        sortedPrices.sort(Collections.reverseOrder());
-
-        Assert.assertEquals(prices, sortedPrices);
+    private HomePage login() {
+        return loginPage
+                .typeUsername(ConfigReader.getUsername())
+                .typePassword(ConfigReader.getPassword())
+                .submitLoginSuccess();
     }
 }
-

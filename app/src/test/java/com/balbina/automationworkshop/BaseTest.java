@@ -12,7 +12,6 @@ public class BaseTest {
     @BeforeMethod
     final public void setUp() {
         driver = new ChromeDriver();
-        driver.get("https://www.saucedemo.com/");
     }
 
     @AfterMethod
