@@ -1,11 +1,8 @@
 package com.balbina.automationworkshop;
 
 import com.balbina.automationworkshop.pom.HomePage;
-import com.balbina.automationworkshop.pom.LoginPage;
-import com.balbina.automationworkshop.utils.ConfigReader;
 import io.qameta.allure.*;
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
@@ -18,12 +15,6 @@ import java.util.List;
 public class SortTest extends BaseTest {
 
     private HomePage homePage;
-    private LoginPage loginPage;
-
-    @BeforeMethod
-    public void initialize() {
-        loginPage = new LoginPage(driver).get();
-    }
 
     @Test
     @Description("Verifies that sorting in ascending alphabetical order works")
@@ -75,12 +66,5 @@ public class SortTest extends BaseTest {
         List<Double> expected = new ArrayList<>(prices);
         expected.sort(Collections.reverseOrder());
         Assert.assertEquals(prices, expected);
-    }
-
-    private HomePage login() {
-        return loginPage
-                .typeUsername(ConfigReader.getUsername())
-                .typePassword(ConfigReader.getPassword())
-                .submitLoginSuccess();
     }
 }

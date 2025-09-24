@@ -8,6 +8,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
 public class HomePage extends LoadableComponent<HomePage> {
@@ -17,8 +18,8 @@ public class HomePage extends LoadableComponent<HomePage> {
     private static String HOME_PAGE_URL = "https://www.saucedemo.com/inventory.html";
 
     private final By inventorySortingContainer = By.xpath("//select[@class=\"product_sort_container\"]");
-    private final By inventoryItemLocator = By.xpath("//div[@class=\"inventory_item\"]");
-
+    private final By inventoryItemLocator = By.className("inventory_item");
+    private final By cartLocator = By.id("shopping_cart_container");
 
     public HomePage(WebDriver webDriver) {
         driver = webDriver;
@@ -66,6 +67,24 @@ public class HomePage extends LoadableComponent<HomePage> {
                 .map(Product::new)
                 .map(Product::getPrice)
                 .toList();
+    }
+
+    public void clickProductBtn(String name) {
+        driver.findElements(inventoryItemLocator)
+                .stream()
+                .map(Product::new)
+                .filter(p -> p.getName().equals(name))
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException("Product not found: " + name))
+                .clickAddOrRemove();
+    }
+
+    public int getShoppingCartValue() {
+        return new ShoppingCart(helper.waitForElementToBeVisible(cartLocator, 5)).getShoppingCartValue();
+    }
+
+    public Boolean isBadgeVisible() {
+        return new ShoppingCart(helper.waitForElementToBeVisible(cartLocator, 5)).isBadgeVisible();
     }
 }
 

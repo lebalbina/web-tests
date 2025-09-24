@@ -1,48 +1,35 @@
 package com.balbina.automationworkshop;
 
+import com.balbina.automationworkshop.pom.HomePage;
 import io.qameta.allure.*;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.JavascriptExecutor;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 @Epic("Shopping Cart")
 @Feature("Shopping Cart Badge")
 public class ShoppingCartIconBehaviorTest extends BaseTest {
 
-    private WebDriverWait driverWait;
+    private HomePage homePage;
+
+    @BeforeMethod
+    public void clearBrowser() {
+        driver.manage().deleteAllCookies();
+        ((JavascriptExecutor) driver).executeScript("window.localStorage.clear();");
+        ((JavascriptExecutor) driver).executeScript("window.sessionStorage.clear();");
+    }
 
     @Test
-    @Description("Verifies that shopping cart gets updated after adding first item in the basket")
+    @Description("Verifies that shopping cart shows up and hides correctly")
     @Step("add first item to basket and then remove it")
     @Severity(SeverityLevel.NORMAL)
     public void addAndRemoveFromCart() {
-        WebElement addToCartBtn = driverWait.until(
-                ExpectedConditions.visibilityOfElementLocated(By.name(("add-to-cart-sauce-labs-backpack"))));
-        addToCartBtn.click();
-
-        WebElement shoppingCartContainer = driverWait.until(
-                ExpectedConditions.visibilityOfElementLocated(By.className("shopping_cart_container"))
-        );
-        shoppingCartContainer.click();
-
-        WebElement basketWithOneItem = driverWait.until(
-                ExpectedConditions.visibilityOfElementLocated(By.className("shopping_cart_badge"))
-        );
-
-        Assert.assertTrue(basketWithOneItem.isDisplayed());
-
-        WebElement removeBtn = driverWait.until(
-                ExpectedConditions.visibilityOfElementLocated(By.name("remove-sauce-labs-backpack"))
-        );
-        removeBtn.click();
-
-        boolean isBasketBadgeGone = driverWait.until(
-                ExpectedConditions.invisibilityOfElementLocated(By.className("shopping_cart_badge"))
-        );
-        Assert.assertTrue(isBasketBadgeGone);
+        homePage = login();
+        homePage.clickProductBtn("Sauce Labs Backpack");
+        Assert.assertTrue(homePage.isBadgeVisible());
+        homePage.clickProductBtn("Sauce Labs Backpack");
+        Assert.assertFalse(homePage.isBadgeVisible());
     }
 
     @Test
@@ -50,26 +37,13 @@ public class ShoppingCartIconBehaviorTest extends BaseTest {
     @Step("Add two items then remove one")
     @Severity(SeverityLevel.NORMAL)
     public void counterIncrDecr() {
-        WebElement addToCartBtn1 = driver.findElement(By.id("add-to-cart-sauce-labs-fleece-jacket"));
-        WebElement addToCartBtn2 = driver.findElement(By.id("add-to-cart-sauce-labs-backpack"));
-
-        addToCartBtn1.click();
-        addToCartBtn2.click();
-
-        WebElement badgeIncr = driverWait.until(
-                ExpectedConditions.visibilityOfElementLocated(By.className("shopping_cart_badge"))
-        );
-
-        Assert.assertEquals(badgeIncr.getText(), "2");
-
-        WebElement removeBtn = driver.findElement(By.id("remove-sauce-labs-fleece-jacket"));
-        removeBtn.click();
-
-        WebElement badgeDecr = driverWait.until(
-                ExpectedConditions.visibilityOfElementLocated(By.className("shopping_cart_badge"))
-        );
-
-        Assert.assertEquals(badgeDecr.getText(), "1");
+        homePage = login();
+        homePage.clickProductBtn("Sauce Labs Backpack");
+        homePage.clickProductBtn("Sauce Labs Bike Light");
+        Assert.assertEquals(homePage.getShoppingCartValue(), 2);
+        homePage.clickProductBtn("Sauce Labs Bike Light");
+        Assert.assertEquals(homePage.getShoppingCartValue(), 1);
     }
 }
+
 
