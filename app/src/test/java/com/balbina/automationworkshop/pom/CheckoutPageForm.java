@@ -11,6 +11,7 @@ public class CheckoutPageForm extends BasePage<CheckoutPageForm> {
     private final By lastNameLocator = By.id("last-name");
     private final By zipLocator = By.id("postal-code");
     private final By continueLocator = By.id("continue");
+    private final By errorContainer = By.cssSelector(".error-message-container.error");
 
     public CheckoutPageForm(WebDriver driver) {
         super(driver);
@@ -41,8 +42,16 @@ public class CheckoutPageForm extends BasePage<CheckoutPageForm> {
         helper.waitForElementToBeVisible(zipLocator, 5).sendKeys(input);
     }
 
-    public CheckoutPageSummary clickContinue() {
+    public CheckoutPageSummary clickContinueExpectSuccess() {
         helper.waitForElementToBeVisible(continueLocator, 5).click();
-        return new CheckoutPageSummary(driver);
+        return new CheckoutPageSummary(driver).get();
+    }
+
+    public void clickContinueExpectFailure() {
+        helper.waitForElementToBeVisible(continueLocator, 5).click();
+    }
+
+    public String getErrorMsg() {
+        return new ErrorBtn(helper.waitForElementToBeVisible(errorContainer, 5)).getErrorMsg();
     }
 }

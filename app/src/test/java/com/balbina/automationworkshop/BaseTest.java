@@ -19,14 +19,8 @@ public class BaseTest {
     protected HomePage homePage;
 
     @BeforeMethod
-    final public void setUp() {
-        final Map<String, Object> chromePrefs = new HashMap<>();
-        chromePrefs.put("credentials_enable_service", false);
-        chromePrefs.put("profile.password_manager_enabled", false);
-        chromePrefs.put("profile.password_manager_leak_detection", false);
-        final ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.setExperimentalOption("prefs", chromePrefs);
-        driver = new ChromeDriver(chromeOptions);
+    public void setUp() {
+        driver = new ChromeDriver(getChromeOptions());
         loginPage = new LoginPage(driver).get();
     }
 
@@ -42,5 +36,15 @@ public class BaseTest {
                 .typeUsername(ConfigReader.getUsername())
                 .typePassword(ConfigReader.getPassword())
                 .submitLoginSuccess();
+    }
+
+    private ChromeOptions getChromeOptions() {
+        return new ChromeOptions().setExperimentalOption("prefs", getChromePreferences());
+    }
+
+    private Map<String, Object> getChromePreferences() {
+        Map<String, Object> chromePreferences = new HashMap<>();
+        chromePreferences.put("profile.password_manager_leak_detection", false);
+        return chromePreferences;
     }
 }

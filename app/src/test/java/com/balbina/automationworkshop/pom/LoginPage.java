@@ -50,12 +50,10 @@ public class LoginPage extends BasePage<LoginPage> {
     }
 
     public String getErrorContainerText() {
-        WebElement element = helper.waitForElementToBeVisible(errorContainerLocator, 10);
-        return element.getText();
+        return new ErrorBtn(helper.waitForElementToBeVisible(errorContainerLocator, 10)).getErrorMsg();
     }
 
     public boolean errorContainerIsDisplayed() {
-        WebElement element = helper.waitForElementToBeVisible(errorContainerLocator, 10);
-        return element.isDisplayed();
+        return new ErrorBtn(helper.waitForElementToBeVisible(errorContainerLocator, 10)).isVisible();
     }
 }
