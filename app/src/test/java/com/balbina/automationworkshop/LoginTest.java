@@ -1,11 +1,9 @@
 package com.balbina.automationworkshop;
 
 import com.balbina.automationworkshop.pom.HomePage;
-import com.balbina.automationworkshop.pom.LoginPage;
 import com.balbina.automationworkshop.utils.ConfigReader;
 import io.qameta.allure.*;
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 //TODO constants for error messages
@@ -15,13 +13,6 @@ import org.testng.annotations.Test;
 public class LoginTest extends BaseTest {
     private static final String STANDARD_USER = "standard_user";
     private static final String WRONG_PASSWORD = "wrong_password";
-
-    private LoginPage loginPage;
-
-    @BeforeMethod
-    private void initialize() {
-        loginPage = new LoginPage(driver).get();
-    }
 
     @Test
     @Description("Verifies that entering correct data logs user in")

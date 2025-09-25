@@ -1,15 +1,11 @@
 package com.balbina.automationworkshop.pom;
 
-import com.balbina.automationworkshop.utils.WaitHelper;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.LoadableComponent;
 import org.testng.Assert;
 
-public class LoginPage extends LoadableComponent<LoginPage> {
-    private final WebDriver driver;
-    private final WaitHelper helper;
+public class LoginPage extends BasePage<LoginPage> {
 
     private final By errorContainerLocator= By.cssSelector("div.error-message-container.error");
     private final By userNameLocator = By.name("user-name");
@@ -30,8 +26,7 @@ public class LoginPage extends LoadableComponent<LoginPage> {
     }
 
     public LoginPage(WebDriver webDriver) {
-        driver = webDriver;
-        helper = new WaitHelper(driver);
+        super(webDriver);
     }
 
     public LoginPage typeUsername(String username) {

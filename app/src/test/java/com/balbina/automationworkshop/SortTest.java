@@ -1,6 +1,5 @@
 package com.balbina.automationworkshop;
 
-import com.balbina.automationworkshop.pom.HomePage;
 import io.qameta.allure.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -13,8 +12,6 @@ import java.util.List;
 @Epic("Products display")
 @Feature("Sorting")
 public class SortTest extends BaseTest {
-
-    private HomePage homePage;
 
     @Test
     @Description("Verifies that sorting in ascending alphabetical order works")

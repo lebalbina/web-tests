@@ -1,9 +1,7 @@
 package com.balbina.automationworkshop.pom;
 
-import com.balbina.automationworkshop.utils.WaitHelper;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.LoadableComponent;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
@@ -11,10 +9,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
-public class HomePage extends LoadableComponent<HomePage> {
+public class HomePage extends BasePage<HomePage> {
 
-    private final WebDriver driver;
-    private final WaitHelper helper;
     private static String HOME_PAGE_URL = "https://www.saucedemo.com/inventory.html";
 
     private final By inventorySortingContainer = By.xpath("//select[@class=\"product_sort_container\"]");
@@ -22,8 +18,7 @@ public class HomePage extends LoadableComponent<HomePage> {
     private final By cartLocator = By.id("shopping_cart_container");
 
     public HomePage(WebDriver webDriver) {
-        driver = webDriver;
-        helper = new WaitHelper(driver);
+        super(webDriver);
     }
 
     @Override
@@ -85,6 +80,11 @@ public class HomePage extends LoadableComponent<HomePage> {
 
     public Boolean isBadgeVisible() {
         return new ShoppingCart(helper.waitForElementToBeVisible(cartLocator, 5)).isBadgeVisible();
+    }
+
+    public ShoppingCartPage clickShoppingCart() {
+        driver.findElement(cartLocator).click();
+        return new ShoppingCartPage(driver);
     }
 }
 
