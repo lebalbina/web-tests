@@ -6,6 +6,8 @@ Automated Selenium-based tests in Java for the SauceDemo demo web app.
 
 - Tests written in Java with Selenium WebDriver
 
+- Page Object Model design pattern used
+
 - Basic e2e and functional test scenarios
 
 - Allure integration for rich test reports
@@ -13,8 +15,6 @@ Automated Selenium-based tests in Java for the SauceDemo demo web app.
 - CI/CD integration with Jenkins (Jenkinsfile included)
 
 ## Current State
-
-- No Page Object Model (POM) yet — test logic is straightforward
 
 - Covers key user flows: login, adding/removing products, checkout, sorting products
 
@@ -26,7 +26,8 @@ WebTests/
 │   ├── src/test/
 │   │   ├── java/
 │   │   └── resources/
-│   │       └── testng.xml
+│   │       ├── testng.xml
+            └── allure.properties
 │   └── build.gradle
 ├── gradle/
 │   └── wrapper/
