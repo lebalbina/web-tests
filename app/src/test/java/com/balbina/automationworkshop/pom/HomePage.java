@@ -11,9 +11,9 @@ import java.util.Objects;
 
 public class HomePage extends BasePage<HomePage> {
 
-    private static String HOME_PAGE_URL = "https://www.saucedemo.com/inventory.html";
+    private final String HOME_PAGE_URL = "https://www.saucedemo.com/inventory.html";
 
-    private final By inventorySortingContainer = By.xpath("//select[@class=\"product_sort_container\"]");
+    private final By inventorySortingContainer = By.className("product_sort_container");
     private final By inventoryItemLocator = By.className("inventory_item");
     private final By cartLocator = By.id("shopping_cart_container");
 

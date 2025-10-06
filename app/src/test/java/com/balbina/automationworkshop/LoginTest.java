@@ -6,13 +6,15 @@ import io.qameta.allure.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-//TODO constants for error messages
 //TODO failing logins candidate for parameterized tests
 @Epic("Login")
 @Feature("Login")
 public class LoginTest extends BaseTest {
-    private static final String STANDARD_USER = "standard_user";
-    private static final String WRONG_PASSWORD = "wrong_password";
+    private final String NO_USERNAME_IN_DB_ERROR_MSG = "Epic sadface: Username and password do not match any user in this service";
+    private final String PASSWORD_REQUIRED_ERROR_MSG = "Epic sadface: Password is required";
+    private final String USERNAME_IS_REQUIRED_ERROR_MSG = "Epic sadface: Username is required";
+    private final String STANDARD_USER = "standard_user";
+    private final String WRONG_PASSWORD = "wrong_password";
 
     @Test
     @Description("Verifies that entering correct data logs user in")
@@ -37,9 +39,7 @@ public class LoginTest extends BaseTest {
                 .submitLoginFailure();
 
         Assert.assertTrue(loginPage.errorContainerIsDisplayed());
-        Assert.assertEquals(loginPage.getErrorContainerText(),
-                            "Epic sadface: Username and password do not match any user in this service"
-        );
+        Assert.assertEquals(loginPage.getErrorContainerText(), NO_USERNAME_IN_DB_ERROR_MSG);
     }
 
     @Test
@@ -52,9 +52,7 @@ public class LoginTest extends BaseTest {
                 .submitLoginFailure();
 
         Assert.assertTrue(loginPage.errorContainerIsDisplayed());
-        Assert.assertEquals(loginPage.getErrorContainerText(),
-                            "Epic sadface: Password is required"
-        );
+        Assert.assertEquals(loginPage.getErrorContainerText(), PASSWORD_REQUIRED_ERROR_MSG);
     }
 
     @Test
@@ -67,9 +65,7 @@ public class LoginTest extends BaseTest {
                 .submitLoginFailure();
 
         Assert.assertTrue(loginPage.errorContainerIsDisplayed());
-        Assert.assertEquals(loginPage.getErrorContainerText(),
-                            "Epic sadface: Username is required"
-        );
+        Assert.assertEquals(loginPage.getErrorContainerText(), USERNAME_IS_REQUIRED_ERROR_MSG);
     }
 
     @Test
@@ -80,8 +76,6 @@ public class LoginTest extends BaseTest {
         loginPage = loginPage.submitLoginFailure();
 
         Assert.assertTrue(loginPage.errorContainerIsDisplayed());
-        Assert.assertEquals(loginPage.getErrorContainerText(),
-                            "Epic sadface: Username is required"
-        );
+        Assert.assertEquals(loginPage.getErrorContainerText(), USERNAME_IS_REQUIRED_ERROR_MSG);
     }
 }

@@ -2,7 +2,6 @@ package com.balbina.automationworkshop.pom;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
 public class LoginPage extends BasePage<LoginPage> {
@@ -12,8 +11,6 @@ public class LoginPage extends BasePage<LoginPage> {
     private final By passwordLocator = By.name("password");
     private final By loginBtnLocator = By.name("login-button");
 
-    private static String LOGIN_URL = "https://www.saucedemo.com/";
-
     @Override
     protected void load() {
         driver.get("https://www.saucedemo.com/");
@@ -22,7 +19,7 @@ public class LoginPage extends BasePage<LoginPage> {
     @Override
     protected void isLoaded() throws Error {
         String url = driver.getCurrentUrl();
-        Assert.assertEquals(driver.getCurrentUrl(), LOGIN_URL, "Not on the login page: " + url);
+        Assert.assertEquals(driver.getCurrentUrl(), "https://www.saucedemo.com/", "Not on the login page: " + url);
     }
 
     public LoginPage(WebDriver webDriver) {

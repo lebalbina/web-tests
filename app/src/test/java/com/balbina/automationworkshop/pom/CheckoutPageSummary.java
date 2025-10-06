@@ -1,6 +1,5 @@
 package com.balbina.automationworkshop.pom;
 
-import org.checkerframework.checker.units.qual.C;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
