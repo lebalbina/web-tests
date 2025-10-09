@@ -21,7 +21,7 @@ public class LoginTest extends BaseTest {
     @Step("Enter correct username and password")
     public void loginSuccess() {
         HomePage homepage = login();
-        Assert.assertTrue(homepage.isAt(), "Actual message: " + loginPage.getErrorContainerText());
+        Assert.assertTrue(homepage.isAt());
     }
 
     @Test
