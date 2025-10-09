@@ -2,7 +2,6 @@ package com.balbina.automationworkshop;
 
 import com.balbina.automationworkshop.pom.HomePage;
 import com.balbina.automationworkshop.pom.LoginPage;
-import com.balbina.automationworkshop.utils.ConfigReader;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -33,8 +32,8 @@ public class BaseTest {
 
     protected HomePage login() {
         return loginPage
-                .typeUsername(ConfigReader.getUsername())
-                .typePassword(ConfigReader.getPassword())
+                .typeUsername(System.getenv("CREDS_USR"))
+                .typePassword(System.getenv("CREDS_PSW"))
                 .submitLoginSuccess();
     }
 
