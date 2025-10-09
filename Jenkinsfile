@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    environment {
+        CREDS = credentials('test_data')
+    }
 
     stages {
         stage('Checkout Code') {
