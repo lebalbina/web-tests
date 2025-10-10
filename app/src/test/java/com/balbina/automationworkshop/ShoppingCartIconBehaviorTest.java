@@ -18,9 +18,9 @@ public class ShoppingCartIconBehaviorTest extends BaseTest {
 
     @BeforeMethod
     public void clearBrowser() {
-        driver.manage().deleteAllCookies();
-        ((JavascriptExecutor) driver).executeScript("window.localStorage.clear();");
-        ((JavascriptExecutor) driver).executeScript("window.sessionStorage.clear();");
+        getDriver().manage().deleteAllCookies();
+        ((JavascriptExecutor) getDriver()).executeScript("window.localStorage.clear();");
+        ((JavascriptExecutor) getDriver()).executeScript("window.sessionStorage.clear();");
     }
 
     @Test

@@ -5,29 +5,45 @@ import com.balbina.automationworkshop.pom.LoginPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Parameters;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class BaseTest {
 
-    protected WebDriver driver;
     protected LoginPage loginPage;
     protected HomePage homePage;
 
+    private final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+
+    @Parameters("browser")
     @BeforeMethod
-    public void setUp() {
-        driver = new ChromeDriver(getChromeOptions());
-        loginPage = new LoginPage(driver).get();
+    public void setUp(String browser) {
+        switch (browser.toLowerCase()) {
+            case "chrome":
+                driver.set(new ChromeDriver(getChromeOptions()));
+                break;
+            case "firefox":
+                driver.set(new FirefoxDriver());
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown browser: " + browser);
+        }
+        loginPage = new LoginPage(getDriver()).get();
     }
 
     @AfterMethod
     public void tearDown() {
-        if (driver != null) {
-            driver.quit();
-        }
+        getDriver().quit();
+        driver.remove();
+    }
+
+    public WebDriver getDriver() {
+        return driver.get();
     }
 
     protected HomePage login() {
