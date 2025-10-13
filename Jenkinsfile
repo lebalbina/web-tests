@@ -3,6 +3,9 @@ pipeline {
     environment {
         CREDS = credentials('test_data')
     }
+    parameters {
+        string(name: 'ENV', defaultValue: 'prod', description: "Environment to run tests against")
+    }
 
     stages {
         stage('Checkout Code') {
@@ -14,19 +17,15 @@ pipeline {
         stage('Execute Tests') {
             steps {
                 script {
+                    bat 'set ENV=%ENV%'
                     bat 'gradlew clean test'
                 }
             }
             post {
                 always {
                     allure includeProperties: false, jdk: '', results: [[path: 'app/build/allure-results']]
+                    publishTestNG()
                 }
-            }
-        }
-
-        stage('Publish TestNG reports') {
-            steps {
-                publishTestNG()
             }
         }
     }
