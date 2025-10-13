@@ -1,5 +1,6 @@
 package com.balbina.automationworkshop.pom;
 
+import com.balbina.automationworkshop.utils.EnvironmentConfig;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.Select;
@@ -7,11 +8,8 @@ import org.testng.Assert;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 
 public class HomePage extends BasePage<HomePage> {
-
-    private final String HOME_PAGE_URL = "https://www.saucedemo.com/inventory.html";
 
     private final By inventorySortingContainer = By.className("product_sort_container");
     private final By inventoryItemLocator = By.className("inventory_item");
@@ -23,17 +21,13 @@ public class HomePage extends BasePage<HomePage> {
 
     @Override
     protected void load() {
-        driver.get(HOME_PAGE_URL);
+        driver.get(EnvironmentConfig.getPage("inventory.html"));
     }
 
     @Override
     protected void isLoaded() throws Error {
         String url = driver.getCurrentUrl();
-        Assert.assertEquals(url, HOME_PAGE_URL, "Not on home page: " + url);
-    }
-
-    public boolean isAt() {
-        return Objects.requireNonNull(driver.getCurrentUrl()).equals(HOME_PAGE_URL);
+        Assert.assertEquals(url, EnvironmentConfig.getPage("inventory.html"), "Not on home page: " + url);
     }
 
     public void selectSortingByText(String sorter) {

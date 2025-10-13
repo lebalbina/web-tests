@@ -1,5 +1,6 @@
 package com.balbina.automationworkshop.pom;
 
+import com.balbina.automationworkshop.utils.EnvironmentConfig;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
@@ -13,13 +14,13 @@ public class LoginPage extends BasePage<LoginPage> {
 
     @Override
     protected void load() {
-        driver.get("https://www.saucedemo.com/");
+        driver.get(EnvironmentConfig.getBaseUrl());
     }
 
     @Override
     protected void isLoaded() throws Error {
         String url = driver.getCurrentUrl();
-        Assert.assertEquals(driver.getCurrentUrl(), "https://www.saucedemo.com/", "Not on the login page: " + url);
+        Assert.assertEquals(url, EnvironmentConfig.getBaseUrl(), "Not on the login page: " + url);
     }
 
     public LoginPage(WebDriver webDriver) {

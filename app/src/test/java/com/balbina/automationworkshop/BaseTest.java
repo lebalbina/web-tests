@@ -23,16 +23,7 @@ public class BaseTest {
     @Parameters("browser")
     @BeforeMethod
     public void setUp(String browser) {
-        switch (browser.toLowerCase()) {
-            case "chrome":
-                driver.set(new ChromeDriver(getChromeOptions()));
-                break;
-            case "firefox":
-                driver.set(new FirefoxDriver());
-                break;
-            default:
-                throw new IllegalArgumentException("Unknown browser: " + browser);
-        }
+        setUpBrowser(browser);
         loginPage = new LoginPage(getDriver()).get();
     }
 
@@ -51,6 +42,19 @@ public class BaseTest {
                 .typeUsername(System.getenv("CREDS_USR"))
                 .typePassword(System.getenv("CREDS_PSW"))
                 .submitLoginSuccess();
+    }
+
+    private void setUpBrowser(String browser) {
+        switch (browser.toLowerCase()) {
+            case "chrome":
+                driver.set(new ChromeDriver(getChromeOptions()));
+                break;
+            case "firefox":
+                driver.set(new FirefoxDriver());
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown browser: " + browser);
+        }
     }
 
     private ChromeOptions getChromeOptions() {

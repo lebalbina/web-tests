@@ -1,6 +1,5 @@
 package com.balbina.automationworkshop;
 
-import com.balbina.automationworkshop.pom.HomePage;
 import io.qameta.allure.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -20,8 +19,7 @@ public class LoginTest extends BaseTest {
     @Severity(SeverityLevel.BLOCKER)
     @Step("Enter correct username and password")
     public void loginSuccess() {
-        HomePage homepage = login();
-        Assert.assertTrue(homepage.isAt());
+        login();
     }
 
     @Test

@@ -1,10 +1,9 @@
 package com.balbina.automationworkshop.pom;
 
+import com.balbina.automationworkshop.utils.EnvironmentConfig;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
-
-import java.util.Objects;
 
 public class CheckoutCompletePage extends BasePage<CheckoutCompletePage> {
 
@@ -16,14 +15,14 @@ public class CheckoutCompletePage extends BasePage<CheckoutCompletePage> {
 
     @Override
     protected void load() {
-        driver.get("https://www.saucedemo.com/checkout-complete.html");
+        driver.get(EnvironmentConfig.getPage("checkout-complete.html"));
     }
 
     @Override
     protected void isLoaded() throws Error {
         String url = driver.getCurrentUrl();
-        Assert.assertTrue(Objects.requireNonNull(url).endsWith("checkout-complete.html.html"),
-                          "Not on checkout complete page: " + url
+        Assert.assertEquals(url, EnvironmentConfig.getPage("checkout-complete.html"),
+                            "Not on checkout complete page: " + url
         );
     }
 
