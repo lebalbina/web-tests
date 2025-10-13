@@ -28,6 +28,6 @@ public class CheckoutCompletePage extends BasePage<CheckoutCompletePage> {
 
     public HomePage clickBackHome() {
         helper.waitForElementToBeVisible(backHome, 5).click();
-        return new HomePage(driver);
+        return new HomePage(driver).get();
     }
 }

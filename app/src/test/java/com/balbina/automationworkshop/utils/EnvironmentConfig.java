@@ -25,7 +25,6 @@ public class EnvironmentConfig {
     }
 
     public static String getPage(String path) {
-        if (!path.startsWith("/")) path = "/" + path;
         return BASE_URL + path;
     }
 }
