@@ -12,6 +12,11 @@ import org.testng.annotations.Test;
 @Feature("Checkout Form")
 public class CheckoutFormTest extends BaseTest {
 
+    private final String FIRST_NAME_REQUIRED_ERROR = "Error: First Name is required";
+    private final String FIRST_NAME = "Foo";
+    private final String LAST_NAME = "Bar";
+    private final String POSTAL_CODE = "66666";
+
     @Test
     @Description("Verifies that user goes through checkout process without errors")
     @Severity(SeverityLevel.CRITICAL)
@@ -21,9 +26,9 @@ public class CheckoutFormTest extends BaseTest {
         homePage.clickProductBtn("Sauce Labs Backpack");
         ShoppingCartPage shoppingCartPage = homePage.clickShoppingCart();
         CheckoutPageForm checkoutPageForm = shoppingCartPage.clickCheckout();
-        checkoutPageForm.typeFirstName("Balbina");
-        checkoutPageForm.typeLastName("Pinecone");
-        checkoutPageForm.typePostalCode("66666");
+        checkoutPageForm.typeFirstName(FIRST_NAME);
+        checkoutPageForm.typeLastName(LAST_NAME);
+        checkoutPageForm.typePostalCode(POSTAL_CODE);
         CheckoutPageSummary checkoutPageSummary = checkoutPageForm.clickContinueExpectSuccess();
         CheckoutCompletePage checkoutCompletePage = checkoutPageSummary.clickFinish();
         homePage = checkoutCompletePage.clickBackHome();
@@ -39,10 +44,10 @@ public class CheckoutFormTest extends BaseTest {
         homePage.clickProductBtn("Sauce Labs Backpack");
         ShoppingCartPage shoppingCartPage = homePage.clickShoppingCart();
         CheckoutPageForm checkoutPageForm = shoppingCartPage.clickCheckout();
-        checkoutPageForm.typeLastName("Pinecone");
-        checkoutPageForm.typePostalCode("66666");
+        checkoutPageForm.typeLastName(LAST_NAME);
+        checkoutPageForm.typePostalCode(POSTAL_CODE);
         checkoutPageForm.clickContinueExpectFailure();
-        Assert.assertEquals(checkoutPageForm.getErrorMsg(), "Error: First Name is required");
+        Assert.assertEquals(checkoutPageForm.getErrorMsg(), FIRST_NAME_REQUIRED_ERROR);
     }
 }
 
